@@ -1,5 +1,11 @@
+import GlobalLayout from './layouts/GlobalLayout';
+
 function App() {
-	return <div>Hello</div>;
+  return (
+    <div>
+      <GlobalLayout />
+    </div>
+  );
 }
 
 export default App;
