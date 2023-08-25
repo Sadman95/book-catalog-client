@@ -22,10 +22,12 @@ import {
 
 interface IProps {
   disabled?: boolean;
+  date: Date;
+  setDate: (date: Date | undefined) => void;
 }
 
-export function DatePickerWithPresets({ disabled }: IProps) {
-  const [date, setDate] = React.useState<Date>();
+export function DatePickerWithPresets({ disabled, date, setDate }: IProps) {
+  console.log('date: ', date);
 
   return (
     <Popover>

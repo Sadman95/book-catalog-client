@@ -32,6 +32,11 @@ export default function Navbar() {
                   <Link to="/books">Books</Link>
                 </Button>
               </li>
+              <li>
+                <Button variant="link" asChild>
+                  <Link to="/add-book">Add book</Link>
+                </Button>
+              </li>
 
               <li>
                 <Button variant="ghost">
