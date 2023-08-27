@@ -21,19 +21,29 @@ const initialQueryFilters = {
 
 export default function Products() {
   const [filters, setFilters] = useState<IQueryFilters>(initialQueryFilters);
+  const [initialGenres, setInitialGenres] = useState([]);
+  const [initialYears, setInitialYears] = useState([]);
   const [genres, setGenres] = useState(null);
   const [years, setYears] = useState(null);
   const { data, isLoading, error } =
     useGetBooksQuery<Record<string, any>>(filters);
 
   useEffect(() => {
-    setGenres(data?.data?.map((book: IBook) => book.genre));
-    setYears(
-      data?.data?.map((book: IBook) =>
-        new Date(book.publicationDate).getFullYear()
-      )
-    );
-  }, [data?.data]);
+    if (data?.data) {
+      if (initialGenres.length === 0) {
+        const genres = data.data.map((book: IBook) => book.genre);
+        setGenres(genres);
+        setInitialGenres(genres);
+      }
+      if (initialYears.length === 0) {
+        const years = data.data.map((book: IBook) =>
+          new Date(book.publicationDate).getFullYear()
+        );
+        setYears(years);
+        setInitialYears(years);
+      }
+    }
+  }, [data]);
 
   return (
     <div className="relative grid grid-cols-12 mx-auto max-w-7xl">

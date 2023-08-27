@@ -15,6 +15,10 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { DatePickerWithPresets } from '@/components/ui/datePickerWithPreset';
+import { useCreateBookMutation } from '@/redux/features/books/booksApi';
+import { toast } from '@/components/ui/use-toast';
+import { IBook, IResponse } from '@/types/globalTypes';
+import { useEffect } from 'react';
 
 const formSchema = z.object({
   title: z.string({
@@ -32,6 +36,9 @@ const formSchema = z.object({
 });
 
 export default function AddBook() {
+  const [createBook, { isLoading, isSuccess, error, isError, data }] =
+    useCreateBookMutation();
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,8 +54,27 @@ export default function AddBook() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+    createBook(values);
   }
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast({
+        title: 'Success',
+        description: data.message,
+        duration: 3000,
+        variant: 'default',
+      });
+    }
+    if (error) {
+      toast({
+        title: 'Error',
+        description: error.data.message,
+        duration: 3000,
+        variant: 'destructive',
+      });
+    }
+  }, [error, isSuccess]);
 
   return (
     <Form {...form}>
@@ -111,7 +137,9 @@ export default function AddBook() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button disabled={isLoading} type="submit">
+          {isLoading ? 'Loading...' : 'Add book'}
+        </Button>
       </form>
     </Form>
   );
