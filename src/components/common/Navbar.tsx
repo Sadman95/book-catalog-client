@@ -11,8 +11,19 @@ import {
 import { HiOutlineSearch } from 'react-icons/hi';
 import logo from '../../assets/images/book-catalog-logo.png';
 import { Button } from '../ui/button';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import { logOut } from '@/redux/features/auth/authSlice';
 
 export default function Navbar() {
+  const currentUser = useAppSelector((state) => state.auth.userInfo);
+  const dispatch = useAppDispatch();
+
+  const logOutHandler = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('persist:book_catalog');
+    dispatch(logOut());
+  };
+
   return (
     <nav className="w-full h-16 fixed top backdrop-blur-lg z-10">
       <div className="h-full w-full bg-white/60">
@@ -45,27 +56,35 @@ export default function Navbar() {
               </li>
 
               <li className="ml-5">
-                <DropdownMenu>
-                  <DropdownMenuTrigger className="outline-none">
-                    <Avatar>
-                      <AvatarImage src="https://github.com/shadcn.png" />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuLabel>Account</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem className="cursor-pointer">
-                      Dashboard
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer">
-                      <Link to="login">Login</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer">
-                      <Link to="signUp">Sign Up</Link>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                {currentUser ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger className="outline-none">
+                      <Avatar>
+                        <AvatarImage src="https://github.com/shadcn.png" />
+                        <AvatarFallback>CN</AvatarFallback>
+                      </Avatar>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuLabel>
+                        Signed is as {currentUser?.email}
+                      </DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem className="cursor-pointer">
+                        Dashboard
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => logOutHandler()}
+                        className="cursor-pointer"
+                      >
+                        Log out
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <Button variant="link" asChild>
+                    <Link to="/auth">Sign in</Link>
+                  </Button>
+                )}
               </li>
             </ul>
           </div>

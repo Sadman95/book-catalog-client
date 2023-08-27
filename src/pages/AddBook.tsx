@@ -60,39 +60,55 @@ export default function AddBook() {
           control={form.control}
           name="title"
           render={({ field }) => (
-            <>
-              <FormItem>
-                <FormLabel>Title</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter book title" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-              <FormItem>
-                <FormLabel>Author</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter author name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-              <FormItem>
-                <FormLabel>Genre</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter genre" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-              <FormItem>
-                <FormLabel>Publication date</FormLabel>
-                <FormControl>
-                  <DatePickerWithPresets
-                    date={field.value as unknown as Date}
-                    setDate={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            </>
+            <FormItem>
+              <FormLabel>Title</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter book title" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="author"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Author</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter author name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="genre"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Genre</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter genre" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="publicationDate"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Publication date</FormLabel>
+              <FormControl>
+                <DatePickerWithPresets
+                  date={field.value as Date}
+                  setDate={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
           )}
         />
         <Button type="submit">Submit</Button>
@@ -100,3 +116,10 @@ export default function AddBook() {
     </Form>
   );
 }
+
+/* 
+
+ 
+              
+              
+*/

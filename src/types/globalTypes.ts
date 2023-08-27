@@ -6,3 +6,8 @@ export interface IBook {
   publicationDate: string;
   featuredImage: string;
 }
+
+export interface IAuth {
+  toggleAuth: boolean;
+  setToggleAuth: (toggleAuth: boolean) => void;
+}
