@@ -1,11 +1,11 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
-import Login from '../pages/Login';
-import SignUp from '../pages/SignUp';
+import Auth from '../pages/Auth';
 import NotFound from '../pages/NotFound';
 import Books from '@/pages/Books';
 import BookDetails from '@/pages/BookDetails';
 import AddBook from '@/pages/AddBook';
+import PrivateRoute from './private';
 
 const routes = createBrowserRouter([
   {
@@ -17,32 +17,31 @@ const routes = createBrowserRouter([
         element: <Books />,
       },
       {
-        path: '/books',
+        path: 'books',
         element: <Books />,
       },
       {
-        path: '/book-details/:id',
+        path: 'book-details/:id',
         element: <BookDetails />,
       },
       {
-        path: '/add-book',
-        // element: <PrivateRoute>{/* <AddBook /> */}</PrivateRoute>,
-        element: <AddBook />,
+        path: 'add-book',
+        element: (
+          <PrivateRoute>
+            <AddBook />{' '}
+          </PrivateRoute>
+        ),
       },
       {
-        path: '/edit-book',
+        path: 'edit-book',
         // element: <PrivateRoute>{/* <EditBook /> */}</PrivateRoute>,
         // element: <EditBook/>
       },
     ],
   },
   {
-    path: '/login',
-    element: <Login />,
-  },
-  {
-    path: '/signup',
-    element: <SignUp />,
+    path: '/auth',
+    element: <Auth />,
   },
   {
     path: '*',

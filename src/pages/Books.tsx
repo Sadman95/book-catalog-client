@@ -2,9 +2,10 @@ import BookCard from '@/components/books/BookCard';
 import { Input } from '@/components/ui/input';
 import { useGetBooksQuery } from '@/redux/features/books/booksApi';
 import { IBook } from '@/types/globalTypes';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CoreSelect from '@/components/core/_select';
 import CoreAlert from '@/components/core/_alert';
+import generateRangeArray from '@/utils/generateRangeArray';
 
 interface IQueryFilters {
   searchTerm: string;
@@ -20,13 +21,24 @@ const initialQueryFilters = {
 
 export default function Products() {
   const [filters, setFilters] = useState<IQueryFilters>(initialQueryFilters);
+  const [genres, setGenres] = useState(null);
+  const [years, setYears] = useState(null);
   const { data, isLoading, error } =
     useGetBooksQuery<Record<string, any>>(filters);
 
+  useEffect(() => {
+    setGenres(data?.data?.map((book: IBook) => book.genre));
+    setYears(
+      data?.data?.map((book: IBook) =>
+        new Date(book.publicationDate).getFullYear()
+      )
+    );
+  }, [data?.data]);
+
   return (
-    <div className="grid grid-cols-12 max-w-7xl mx-auto relative">
-      <div className="col-span-12 align-top md:h-screen md:col-span-3 grid grid-cols-1 gap-4 pb-20 pt-20">
-        <div className="flex-col w-full max-w-sm h-full border-hidden md:border-solid md:border-r-2 border-gray-200 space-x-2">
+    <div className="relative grid grid-cols-12 mx-auto max-w-7xl">
+      <div className="grid grid-cols-1 col-span-12 gap-4 pt-20 pb-20 align-top md:h-screen md:col-span-3">
+        <div className="flex-col w-full h-full max-w-sm space-x-2 border-gray-200 border-hidden md:border-solid md:border-r-2">
           <Input
             type="text"
             placeholder="Search...e.g: The Great Gatsby"
@@ -38,12 +50,12 @@ export default function Products() {
           />
 
           <CoreSelect
-            data={data?.meta?.genres}
+            data={[...new Set(genres)]!}
             onValueChange={(v) => setFilters({ ...filters, genre: v })}
             placeHolder="Genre"
           />
           <CoreSelect
-            data={data?.meta?.years}
+            data={generateRangeArray(years!)}
             onValueChange={(v) =>
               setFilters({ ...filters, publicationYear: v })
             }
@@ -51,7 +63,7 @@ export default function Products() {
           />
         </div>
       </div>
-      <div className="col-span-9 content-start grid grid-cols-1 md:grid-cols-3 gap-10 pb-20 pt-20">
+      <div className="grid content-start grid-cols-1 col-span-9 gap-10 pt-20 pb-20 md:grid-cols-3">
         {isLoading && <div>Loading...</div>}
         {error ? (
           <CoreAlert variant="error">{error.data.message}</CoreAlert>

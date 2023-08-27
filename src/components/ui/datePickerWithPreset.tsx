@@ -27,8 +27,6 @@ interface IProps {
 }
 
 export function DatePickerWithPresets({ disabled, date, setDate }: IProps) {
-  console.log('date: ', date);
-
   return (
     <Popover>
       <PopoverTrigger asChild>
