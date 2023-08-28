@@ -1,19 +1,59 @@
 import BookReview from '@/components/books/BookReview';
+import CoreAlertDialog from '@/components/core/_alert-dialog';
 import { Button } from '@/components/ui/button';
-import { useGetSingleBookQuery } from '@/redux/features/books/booksApi';
+import { toast } from '@/components/ui/use-toast';
+import {
+  useDeleteBookMutation,
+  useGetSingleBookQuery,
+} from '@/redux/features/books/booksApi';
 import { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 export default function BookDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const { data, isLoading, error, refetch } = useGetSingleBookQuery(id);
+  const [
+    deleteBook,
+    {
+      isLoading: deleteBookLoading,
+      error: deleteBookError,
+      data: deleteResponse,
+      isSuccess,
+      isError,
+    },
+  ] = useDeleteBookMutation();
 
   useEffect(() => {
     if (data?.data) {
       refetch();
     }
   }, [data?.data]);
+
+  const deleteBookHandler = () => {
+    deleteBook(id as string);
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast({
+        title: 'Success',
+        description: deleteResponse.message,
+        duration: 3000,
+        variant: 'default',
+      });
+      navigate(`/books`);
+    }
+    if (isError) {
+      toast({
+        title: 'Error',
+        description: (deleteBookError as any).data.message,
+        duration: 3000,
+        variant: 'destructive',
+      });
+    }
+  }, [deleteBookError, isSuccess]);
 
   return (
     <>
@@ -35,7 +75,18 @@ export default function BookDetails() {
           <Link to={`/edit-book/${id as string}`}>
             <Button className="btn btn-primary">Edit book</Button>
           </Link>
-          <Button className="btn btn-danger ms-2">Delete book</Button>
+          <CoreAlertDialog
+            dialogAction={deleteBookHandler}
+            dialogTitle="Are you confirm to delete?"
+            triggerContent={
+              <Button
+                disabled={deleteBookLoading}
+                className="btn btn-danger ms-2"
+              >
+                {deleteBookLoading ? 'Deleting...' : 'Delete book'}
+              </Button>
+            }
+          />
         </div>
       </div>
       <BookReview bookId={id as string} />

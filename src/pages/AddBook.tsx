@@ -17,6 +17,7 @@ import { DatePickerWithPresets } from '@/components/ui/datePickerWithPreset';
 import { useCreateBookMutation } from '@/redux/features/books/booksApi';
 import { toast } from '@/components/ui/use-toast';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const formSchema = z.object({
   title: z.string({
@@ -36,6 +37,7 @@ const formSchema = z.object({
 export default function AddBook() {
   const [createBook, { isLoading, isSuccess, error, data }] =
     useCreateBookMutation();
+  const navigate = useNavigate();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -63,6 +65,7 @@ export default function AddBook() {
         duration: 3000,
         variant: 'default',
       });
+      navigate('/books');
     }
     if (error) {
       toast({
