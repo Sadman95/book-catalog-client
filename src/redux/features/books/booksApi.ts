@@ -8,14 +8,19 @@ export const booksApi = api.injectEndpoints({
       },
       providesTags: (result) =>
         // is result available?
-        result
-          ? // successful query
-            [
-              ...result.map(({ id }: any) => ({ type: 'Books', id } as const)),
+        {
+          if (result) {
+            return [
+              ...result.data.map(({ _id }: { _id: string }) => ({
+                type: 'Books',
+                id: _id,
+              })),
               { type: 'Books', id: 'LIST' },
-            ]
-          : // an error occurred, but we still want to refetch this query when `{ type: 'Posts', id: 'LIST' }` is invalidated
-            [{ type: 'Books', id: 'LIST' }],
+            ];
+          } else {
+            return [{ type: 'Books', id: 'LIST' }];
+          }
+        },
     }),
 
     getSingleBook: builder.query({
@@ -43,6 +48,17 @@ export const booksApi = api.injectEndpoints({
       },
       invalidatesTags: (result, error, { id }) => [{ type: 'Books', id }],
     }),
+
+    deleteBook: builder.mutation<{ id: string }, string>({
+      query(id) {
+        return {
+          url: `books/${id}`,
+          method: 'DELETE',
+        };
+      },
+      // Invalidates all queries that subscribe to this Post `id` only.
+      invalidatesTags: (result, error, id) => [{ type: 'Books', id }],
+    }),
   }),
 });
 
@@ -51,4 +67,5 @@ export const {
   useGetSingleBookQuery,
   useCreateBookMutation,
   useEditBookMutation,
+  useDeleteBookMutation,
 } = booksApi;
