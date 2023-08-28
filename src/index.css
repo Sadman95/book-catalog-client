@@ -81,4 +81,16 @@
     @apply bg-background text-foreground;
     font-feature-settings: 'rlig' 1, 'calt' 1;
   }
+
+  .btn {
+    @apply rounded-md;
+  }
+
+  .btn-primary {
+    @apply text-white bg-blue-500 btn hover:bg-blue-300;
+  }
+
+  .btn-danger {
+    @apply text-white bg-red-500 hover:bg-red-300;
+  }
 }

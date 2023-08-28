@@ -6,7 +6,6 @@ import * as z from 'zod';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,7 +16,6 @@ import { Button } from '@/components/ui/button';
 import { DatePickerWithPresets } from '@/components/ui/datePickerWithPreset';
 import { useCreateBookMutation } from '@/redux/features/books/booksApi';
 import { toast } from '@/components/ui/use-toast';
-import { IBook, IResponse } from '@/types/globalTypes';
 import { useEffect } from 'react';
 
 const formSchema = z.object({
@@ -36,7 +34,7 @@ const formSchema = z.object({
 });
 
 export default function AddBook() {
-  const [createBook, { isLoading, isSuccess, error, isError, data }] =
+  const [createBook, { isLoading, isSuccess, error, data }] =
     useCreateBookMutation();
 
   // 1. Define your form.
@@ -69,7 +67,7 @@ export default function AddBook() {
     if (error) {
       toast({
         title: 'Error',
-        description: error.data.message,
+        description: (error as any).data.message,
         duration: 3000,
         variant: 'destructive',
       });
