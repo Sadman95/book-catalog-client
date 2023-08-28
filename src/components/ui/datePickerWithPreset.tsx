@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import { addDays, format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 
@@ -22,7 +21,7 @@ import {
 
 interface IProps {
   disabled?: boolean;
-  date: Date;
+  date: Date | null;
   setDate: (date: Date | undefined) => void;
 }
 
@@ -59,7 +58,11 @@ export function DatePickerWithPresets({ disabled, date, setDate }: IProps) {
           </SelectContent>
         </Select>
         <div className="rounded-md border">
-          <Calendar mode="single" selected={date} onSelect={setDate} />
+          <Calendar
+            mode="single"
+            selected={date ? date : undefined}
+            onSelect={setDate}
+          />
         </div>
       </PopoverContent>
     </Popover>
