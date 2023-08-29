@@ -81,7 +81,7 @@ export default function BookDetails() {
             triggerContent={
               <Button
                 disabled={deleteBookLoading}
-                className="btn btn-danger ms-2"
+                className="hover:bg-red-400 btn-danger ms-2"
               >
                 {deleteBookLoading ? 'Deleting...' : 'Delete book'}
               </Button>
