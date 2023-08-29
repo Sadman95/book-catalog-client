@@ -89,7 +89,7 @@ export default function BookDetails() {
           />
         </div>
       </div>
-      <BookReview bookId={id as string} />
+      <BookReview bookId={id as string} reviews={data?.data?.reviews} />
     </>
   );
 }
