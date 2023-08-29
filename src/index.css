@@ -73,24 +73,16 @@
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-    font-feature-settings: 'rlig' 1, 'calt' 1;
-  }
-
+@layer utilities {
   .btn {
-    @apply rounded-md;
+    @apply rounded-md hover:bg-opacity-50;
   }
 
   .btn-primary {
-    @apply text-white bg-blue-500 btn hover:bg-blue-300;
+    @apply text-white bg-blue-500 btn;
   }
 
   .btn-danger {
-    @apply text-white bg-red-500 hover:bg-red-300;
+    @apply text-white bg-red-500 btn;
   }
 }
