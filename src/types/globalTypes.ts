@@ -28,3 +28,17 @@ export interface IResponse<T> {
   statusCode: number;
   meta?: IMeta | null;
 }
+
+export interface IUser {
+  firstName?: string;
+  lastName?: string;
+  username: string;
+  avatar?: string;
+  id?: string | null;
+}
+
+export interface IReview {
+  _id: string;
+  comment: string;
+  user: IUser;
+}

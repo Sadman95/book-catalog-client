@@ -1,3 +1,4 @@
+import { UseDecrypt } from '@/hooks/useDecrypt';
 import { api } from '@/redux/api/apiSlice';
 
 export const booksApi = api.injectEndpoints({
@@ -25,7 +26,7 @@ export const booksApi = api.injectEndpoints({
 
     getSingleBook: builder.query({
       query: (id) => `books/${id}`,
-      providesTags: (result, error, id) => [{ type: 'Books', id }],
+      providesTags: (id) => [{ type: 'Books', id }],
     }),
 
     createBook: builder.mutation({
@@ -46,10 +47,10 @@ export const booksApi = api.injectEndpoints({
           body,
         };
       },
-      invalidatesTags: (result, error, { id }) => [{ type: 'Books', id }],
+      invalidatesTags: ({ id }) => [{ type: 'Books', id }],
     }),
 
-    deleteBook: builder.mutation<{ id: string }, string>({
+    deleteBook: builder.mutation({
       query(id) {
         return {
           url: `books/${id}`,
@@ -57,7 +58,27 @@ export const booksApi = api.injectEndpoints({
         };
       },
       // Invalidates all queries that subscribe to this Post `id` only.
-      invalidatesTags: (result, error, id) => [{ type: 'Books', id }],
+      invalidatesTags: (id) => [{ type: 'Books', id }],
+    }),
+
+    postReview: builder.mutation({
+      query({ id, data }) {
+        return {
+          url: `books/${id}/reviews`,
+          method: 'PATCH',
+          body: {
+            comment: data,
+          },
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${UseDecrypt(
+              localStorage.getItem('token') as string,
+              '12'
+            )}`,
+          },
+        };
+      },
+      invalidatesTags: ({ id }) => [{ type: 'Books', id }],
     }),
   }),
 });
@@ -68,4 +89,5 @@ export const {
   useCreateBookMutation,
   useEditBookMutation,
   useDeleteBookMutation,
+  usePostReviewMutation,
 } = booksApi;
