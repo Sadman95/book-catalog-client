@@ -15,9 +15,9 @@ const Reviews: FC<IProps> = ({ data }) => {
       {data?.map(({ comment, user, _id }: IReview) => (
         <div key={_id}>
           <div
-            className={`flex align-baseline gap-2 flex-row${
-              currentUser?._id === user?.id && '-reverse'
-            } justify-items${currentUser?._id === user?.id ? 'end' : 'start'}`}
+            className={`flex align-baseline gap-2 ${
+              currentUser?._id === user?.id && 'flex-row-reverse'
+            } justify-items-${currentUser?._id === user?.id ? 'end' : 'start'}`}
           >
             <Avatar>
               <AvatarImage src={user.avatar} />
