@@ -8,7 +8,6 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
 } from '../ui/dropdown-menu';
-import { HiOutlineSearch } from 'react-icons/hi';
 import logo from '../../assets/images/book-catalog-logo.png';
 import { Button } from '../ui/button';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
@@ -25,12 +24,12 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="w-full h-16 fixed top backdrop-blur-lg z-10">
-      <div className="h-full w-full bg-white/60">
-        <div className="flex items-center justify-between w-full md:max-w-7xl h-full mx-auto ">
-          <div>
-            <img className="h-8" src={logo} alt="log" />
-          </div>
+    <nav className="fixed z-10 w-full h-16 top backdrop-blur-lg">
+      <div className="w-full h-full bg-white/60">
+        <div className="flex items-center justify-between w-full h-full mx-auto md:max-w-7xl ">
+          <Link to="/">
+            <img className="h-8" src={logo} alt="logo" />
+          </Link>
           <div>
             <ul className="flex items-center">
               <li>
@@ -46,12 +45,6 @@ export default function Navbar() {
               <li>
                 <Button variant="link" asChild>
                   <Link to="/add-book">Add book</Link>
-                </Button>
-              </li>
-
-              <li>
-                <Button variant="ghost">
-                  <HiOutlineSearch size="25" />
                 </Button>
               </li>
 

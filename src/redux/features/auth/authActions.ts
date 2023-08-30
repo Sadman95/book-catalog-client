@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { UseEncrypt } from '@/hooks/useEncrypt';
+import { envConfig } from '@/config/env.config';
 
-const backendURL = 'http://localhost:5000/api/v1';
+const backendURL = envConfig.apiUrl;
 
 interface ILogin {
   email: string;
@@ -27,7 +28,7 @@ export const signupAction = createAsyncThunk(
         },
       };
       const res = await axios.post(
-        `${backendURL}/auth/signup`,
+        `${backendURL}auth/signup`,
         { firstName, lastName, email, password },
         config
       );
@@ -54,7 +55,7 @@ export const loginAction = createAsyncThunk(
         },
       };
       const res = await axios.post(
-        `${backendURL}/auth/login`,
+        `${backendURL}auth/login`,
         { email, password },
         config
       );

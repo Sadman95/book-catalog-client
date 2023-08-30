@@ -34,6 +34,13 @@ export const booksApi = api.injectEndpoints({
         url: 'books',
         method: 'POST',
         body: book,
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${UseDecrypt(
+            localStorage.getItem('token') as string,
+            '12'
+          )}`,
+        },
       }),
       invalidatesTags: [{ type: 'Books', id: 'LIST' }],
     }),
@@ -45,6 +52,13 @@ export const booksApi = api.injectEndpoints({
           url: `books/${id}`,
           method: 'PATCH',
           body,
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${UseDecrypt(
+              localStorage.getItem('token') as string,
+              '12'
+            )}`,
+          },
         };
       },
       invalidatesTags: ({ id }) => [{ type: 'Books', id }],
@@ -55,10 +69,17 @@ export const booksApi = api.injectEndpoints({
         return {
           url: `books/${id}`,
           method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${UseDecrypt(
+              localStorage.getItem('token') as string,
+              '12'
+            )}`,
+          },
         };
       },
       // Invalidates all queries that subscribe to this Post `id` only.
-      invalidatesTags: (id) => [{ type: 'Books', id }],
+      invalidatesTags: ['Books'],
     }),
 
     postReview: builder.mutation({

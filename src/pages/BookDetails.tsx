@@ -6,12 +6,14 @@ import {
   useDeleteBookMutation,
   useGetSingleBookQuery,
 } from '@/redux/features/books/booksApi';
+import { useAppSelector } from '@/redux/hook';
 import { useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 export default function BookDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const currentUser = useAppSelector((state) => state.auth.userInfo);
 
   const { data, isLoading, error, refetch } = useGetSingleBookQuery(id);
   const [
@@ -32,6 +34,16 @@ export default function BookDetails() {
   }, [data?.data]);
 
   const deleteBookHandler = () => {
+    if (!currentUser) {
+      toast({
+        title: 'Error',
+        description: 'You must be logged in to delete a book',
+        duration: 3000,
+        variant: 'destructive',
+      });
+      return;
+    }
+
     deleteBook(id as string);
   };
 
@@ -39,7 +51,7 @@ export default function BookDetails() {
     if (isSuccess) {
       toast({
         title: 'Success',
-        description: deleteResponse.message,
+        description: deleteResponse?.message,
         duration: 3000,
         variant: 'default',
       });
@@ -48,7 +60,7 @@ export default function BookDetails() {
     if (isError) {
       toast({
         title: 'Error',
-        description: (deleteBookError as any).data.message,
+        description: (deleteBookError as any).data?.message,
         duration: 3000,
         variant: 'destructive',
       });
@@ -57,7 +69,7 @@ export default function BookDetails() {
 
   return (
     <>
-      {error && <div>{(error as any).data.message}</div>}
+      {error && <div>{(error as any).data?.message}</div>}
       {isLoading && <div>Loading...</div>}
       <div className="flex items-center pb-6 mx-auto border-b border-gray-300 max-w-7xl pt-36">
         <div className="w-[50%]">

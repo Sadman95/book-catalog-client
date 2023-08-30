@@ -25,7 +25,7 @@ export default function Products() {
   const [initialYears, setInitialYears] = useState([]);
   const [genres, setGenres] = useState(null);
   const [years, setYears] = useState(null);
-  const { data, isLoading, error } =
+  const { data, isLoading, error, refetch } =
     useGetBooksQuery<Record<string, any>>(filters);
 
   useEffect(() => {
@@ -42,6 +42,7 @@ export default function Products() {
         setYears(years);
         setInitialYears(years);
       }
+      refetch();
     }
   }, [data]);
 
