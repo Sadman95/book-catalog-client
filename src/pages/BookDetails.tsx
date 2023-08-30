@@ -7,13 +7,16 @@ import {
   useGetSingleBookQuery,
 } from '@/redux/features/books/booksApi';
 import { useAppSelector } from '@/redux/hook';
+import { IUser } from '@/types/globalTypes';
 import { useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 export default function BookDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const currentUser = useAppSelector((state) => state.auth.userInfo);
+  const currentUser = useAppSelector<IUser | null>(
+    (state) => state.auth.userInfo
+  );
 
   const { data, isLoading, error, refetch } = useGetSingleBookQuery(id);
   const [

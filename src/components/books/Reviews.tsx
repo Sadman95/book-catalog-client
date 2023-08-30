@@ -1,4 +1,4 @@
-import { IReview } from '@/types/globalTypes';
+import { IReview, IUser } from '@/types/globalTypes';
 import { FC } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { useAppSelector } from '@/redux/hook';
@@ -8,7 +8,10 @@ interface IProps {
 }
 
 const Reviews: FC<IProps> = ({ data }) => {
-  const currentUser = useAppSelector((state) => state.auth.userInfo);
+  const currentUser = useAppSelector<IUser | null>(
+    (state) => state.auth.userInfo
+  );
+  console.log('user: ', currentUser);
 
   return (
     <div className={`flex flex-col gap-4 p-4 border border-gray-200`}>
@@ -22,7 +25,7 @@ const Reviews: FC<IProps> = ({ data }) => {
             <Avatar>
               <AvatarImage src={user.avatar} />
               <AvatarFallback>
-                {user?.firstName[0] + user?.lastName[0]}
+                {user && user.firstName[0] + user.lastName[0]}
               </AvatarFallback>
             </Avatar>
             <span

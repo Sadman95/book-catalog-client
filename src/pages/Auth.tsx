@@ -1,12 +1,15 @@
 import LoginForm from '@/components/auth/LoginForm';
 import SignupForm from '@/components/auth/SignupForm';
 import { useAppSelector } from '@/redux/hook';
+import { IUser } from '@/types/globalTypes';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const Auth = () => {
   const [toggleAuth, setToggleAuth] = useState(true);
-  const currentUser = useAppSelector((state) => state.auth.userInfo);
+  const currentUser = useAppSelector<IUser | null>(
+    (state) => state.auth.userInfo
+  );
   const location = useLocation();
   const navigate = useNavigate();
 

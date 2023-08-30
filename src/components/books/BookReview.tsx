@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/use-toast';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import Reviews from './Reviews';
 import { usePostReviewMutation } from '@/redux/features/books/booksApi';
 import { IReview } from '@/types/globalTypes';
@@ -71,7 +71,7 @@ const BookReview: FC<{ bookId: string; reviews: IReview[] }> = ({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-screen space-y-6 flex flex-1 align-baseline gap-4 p-4"
+          className="flex flex-1 w-screen gap-4 p-4 space-y-6 align-baseline"
         >
           <FormField
             control={form.control}

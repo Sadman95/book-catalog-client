@@ -12,9 +12,12 @@ import logo from '../../assets/images/book-catalog-logo.png';
 import { Button } from '../ui/button';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { logOut } from '@/redux/features/auth/authSlice';
+import { IUser } from '@/types/globalTypes';
 
 export default function Navbar() {
-  const currentUser = useAppSelector((state) => state.auth.userInfo);
+  const currentUser = useAppSelector<IUser | null>(
+    (state) => state.auth.userInfo
+  );
   const dispatch = useAppDispatch();
 
   const logOutHandler = () => {

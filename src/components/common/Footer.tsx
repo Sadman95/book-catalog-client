@@ -1,6 +1,6 @@
-import React from 'react';
-import logo from '@/assets/images/technet-logo-white.png';
 import { RiFacebookBoxFill, RiInstagramLine } from 'react-icons/ri';
+import logo from '../../assets/images/book-catalog-logo.png';
+
 export default function Footer() {
   const date = new Date();
   const year = date.getFullYear();
@@ -31,7 +31,7 @@ export default function Footer() {
           <RiInstagramLine />
         </div>
       </div>
-      <div className="flex w-full mt-20 gap-5">
+      <div className="flex w-full gap-5 mt-20">
         <p>Privacy Policy</p>
         <p>Terms & Condition</p>
         <p className="ml-auto"> &#169; TechNet {year}</p>
