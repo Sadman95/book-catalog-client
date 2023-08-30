@@ -1,6 +1,6 @@
 {
   "name": "book-catalog-client",
-  "homepage": "https://sadman95.github.io/book-catalog-client/",
+  "homepage": "https://book-catalog-frotend-8tnv9mszu-sadman95.vercel.app/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
